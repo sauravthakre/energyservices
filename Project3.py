@@ -14,7 +14,7 @@ tourism = pd.read_csv('Hospedes Dormidas e Estada Media por Ilha.csv')
 passengers = pd.read_csv('Transportes-Aéreos.csv')
 water = pd.read_excel('Energia e Agua.xls', sheet_name='Q1303')
 
-tourists = tourism.iloc[:12916, :]
+tourists = tourism.iloc[:13462, :]
 
 tourists = tourists.drop(columns={'zona_geo_h', 'hospedes_tipo_aloj', 'hospedes_mes', 'textbox23', 'textbox25',
                                   'textbox27', 'textbox28', 'textbox29'})
@@ -28,23 +28,20 @@ tourists['Year'] = tourists['Year'].astype('int64')
 tourists = tourists.groupby('Year')
 tourists = tourists.sum()
 print(tourists)
-#
-# Turismo_dormidas=Turismo.iloc[12933:25849,:] #Finding Overnights in the file
-#
-# Turismo_dormidas=Turismo_dormidas.drop(columns={'zona_geo_h','hospedes_tipo_aloj','hospedes_mes','textbox23','textbox25'})
-# Turismo_dormidas=Turismo_dormidas.drop(columns={'textbox27','textbox28','textbox29'})
-# #Eliminating columns that are not important
-# Turismo_dormidas=Turismo_dormidas.rename(columns={'hospedes_anos':'Year','textbox9':'Dormidas'})
-# #Rename columns
-#
-# Turismo_dormidas['Dormidas']=Turismo_dormidas['Dormidas'].apply(lambda x: str(x).replace(" ",""))
-# Turismo_dormidas['Dormidas']=Turismo_dormidas['Dormidas'].apply(lambda x: str(x).replace("-","0"))
-# Turismo_dormidas['Dormidas']=Turismo_dormidas['Dormidas'].astype('int64')
-# Turismo_dormidas['Year']=Turismo_dormidas['Year'].astype('int64')
-# #Originally the number have spaces between and in some cases that don't have data (-). In this way fixing that and transforming
-# #into a number.
-#
-# Turismo_dormidas=Turismo_dormidas.groupby('Year') #Group the data by the Year
-# Turismo_dormidas=Turismo_dormidas.sum() #Sum of all overnights data by year
-#
-# Turismo_dormidas
+
+overnight = tourism.iloc[13463:26925, :] # Finding Overnights in the file
+
+overnight=overnight.drop(columns={'zona_geo_h', 'hospedes_tipo_aloj', 'hospedes_mes', 'textbox23', 'textbox25',
+                                                'textbox27', 'textbox28', 'textbox29'})
+
+overnight=overnight.rename(columns={'hospedes_anos': 'Year', 'textbox9': 'Night Guests'})
+
+overnight['Night Guests'] = overnight['Night Guests'].apply(lambda x: str(x).replace(" ",""))
+overnight['Night Guests'] = overnight['Night Guests'].apply(lambda x: str(x).replace("-","0"))
+overnight['Night Guests'] = overnight['Night Guests'].astype('int64')
+overnight['Year'] = overnight['Year'].astype('int64')
+
+overnight=overnight.groupby('Year')
+overnight=overnight.sum()
+
+print(overnight)
